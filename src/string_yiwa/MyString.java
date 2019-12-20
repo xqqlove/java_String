@@ -128,4 +128,54 @@ public class MyString implements Serializable,Comparable<MyString>,CharSequence 
     public boolean contains(CharSequence s){
           return false;
     }
+
+    void getChars(char dst[],int dstBegin){
+        System.arraycopy(value,0,dst,dstBegin,value.length);
+    }
+    public void getChars(int srcBegin,int srcEnd,@NotNull char dst[],int dstBegin){
+        if (srcBegin<0){
+            throw new StringIndexOutOfBoundsException(srcBegin);
+        }
+        if (srcEnd>value.length){
+            throw new StringIndexOutOfBoundsException(srcEnd);
+        }
+        if (srcBegin>srcEnd){
+            throw new StringIndexOutOfBoundsException(srcEnd-srcBegin);
+        }
+        System.arraycopy(value,srcBegin,dst,dstBegin,srcEnd-srcBegin);
+    }
+//    public String[] split(@NotNull String regex){
+//        return split(regex,0);
+//    }
+    public MyString concat(@NotNull MyString str){
+        int otherLen=str.length();
+        if (otherLen==0) return this;
+        int len =value.length;
+        char buf[]=Arrays.copyOf(value,len+otherLen);
+        str.getChars(buf,len);
+        return new MyString(buf);
+    }
+    public boolean isEmpty(){
+        return value.length==0;
+    }
+    public MyString substring(int beginIndex,int endIndex ){
+          if (beginIndex<0)
+              throw new StringIndexOutOfBoundsException(beginIndex);
+          if (endIndex>value.length)
+              throw new StringIndexOutOfBoundsException(endIndex);
+          int subLen=endIndex-beginIndex;
+          if (subLen<0)
+              throw new StringIndexOutOfBoundsException(subLen);
+          return ((beginIndex==0)&&(endIndex==value.length))?this:new MyString(value,beginIndex,subLen);
+    }
+    public MyString trim(){
+        int len =value.length;
+        int st=0;
+        char[] val=value;
+        while ((st<len)&&(val[st]<=' '))
+            st++;
+        while ((st<len)&&(val[len-1]<=' '))
+            len--;
+        return ((st>0)||(len<value.length))?substring(st,len):this;
+    }
 }
