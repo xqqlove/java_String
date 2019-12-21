@@ -1,0 +1,2 @@
+对于自定义类，如果需要排序，可以让自定义类实现comparable接口  重写compareTo(obj),
+在compareTo方法中知名如何排序
