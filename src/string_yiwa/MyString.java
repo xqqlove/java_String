@@ -178,4 +178,9 @@ public class MyString implements Serializable,Comparable<MyString>,CharSequence 
             len--;
         return ((st>0)||(len<value.length))?substring(st,len):this;
     }
+    public char[] toCharArray(){
+        char [] result=new char[value.length];
+        System.arraycopy(value,0,result,0,value.length);
+        return result;
+    }
 }
